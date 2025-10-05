@@ -1,3 +1,41 @@
-[gd_scene format=3 uid="uid://0fuaejuq02f3"]
+[gd_scene load_steps=3 format=3 uid="uid://0fuaejuq02f3"]
 
-[node name="Main" type="Node"]
+[ext_resource type="Script" uid="uid://kuet3i66y3ly" path="res://main.gd" id="1_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://brub7u732cjig" path="res://aanya.tscn" id="2_h2yge"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_0xm2m")
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.16470589, 0.1882353, 0.42352942, 1)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Background"]
+
+[node name="ScoreLabel" type="Label" parent="Background/CanvasLayer"]
+offset_left = 18.0
+offset_top = 47.0
+offset_right = 157.0
+offset_bottom = 70.0
+text = "Pages Typed: 0/30"
+
+[node name="EnergyLabel" type="Label" parent="Background/CanvasLayer"]
+offset_left = 17.0
+offset_top = 14.0
+offset_right = 142.0
+offset_bottom = 42.0
+text = "Energy Drinks: 3"
+
+[node name="FatigueBar" type="ProgressBar" parent="Background/CanvasLayer"]
+offset_left = 17.0
+offset_top = 83.0
+offset_right = 168.0
+offset_bottom = 110.0
+max_value = 10.0
+
+[node name="Aanya" parent="." instance=ExtResource("2_h2yge")]
+position = Vector2(30, 500)

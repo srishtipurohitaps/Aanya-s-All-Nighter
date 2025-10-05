@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://brub7u732cjig"]
+
+[ext_resource type="Script" uid="uid://dchv27ke034ol" path="res://aanya.gd" id="1_4i7ln"]
+[ext_resource type="Texture2D" uid="uid://c46mtubjvjtji" path="res://assets/Aanya Main.png" id="1_jqb6f"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4i7ln"]
+size = Vector2(33, 55.5)
+
+[node name="Aanya" type="Node2D"]
+script = ExtResource("1_4i7ln")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(34, 571)
+scale = Vector2(0.13599999, 0.13700001)
+texture = ExtResource("1_jqb6f")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(34.5, 570.75)
+shape = SubResource("RectangleShape2D_4i7ln")
+debug_color = Color(1, 1, 1, 0)
