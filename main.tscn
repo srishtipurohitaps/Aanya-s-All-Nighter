@@ -35,7 +35,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.16470589, 0.1882353, 0.42352942, 1)
+color = Color(0.2107515, 0.22474319, 0.1934526, 1)
 
 [node name="Aanya" parent="." instance=ExtResource("2_h2yge")]
-position = Vector2(50, 300)
