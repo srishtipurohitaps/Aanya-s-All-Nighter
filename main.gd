@@ -8,6 +8,9 @@ var fatigue_rates = [0.25, 0.45, 0.75]
 var fatigue_rate = 0.25
 
 func _ready():
+	print($CanvasLayer/ScoreLabel)
+	print($CanvasLayer/EnergyLabel)
+	print($CanvasLayer/FatigueBar)
 	start_level(1)
 
 func start_level(n):
