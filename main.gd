@@ -1,82 +1,81 @@
 extends Node2D
 
 var current_level = 1
-var score = 0
-var drinks = 3
+var score = 0.0
+var drinks = 99     
 var fatigue = 0.0
-var pages_goal = [30, 60, 100]
-var fatigue_rates = [0.25, 0.45, 0.75]
-var fatigue_rate = 0.25
+
+var pages_goal = [300, 600, 900]
+var fatigue_rates = [0.05, 0.06, 0.07]
+var fatigue_rate = 0.05
 
 func _ready():
-	print("Game started!")
+	if $CanvasLayer.has_node("HelpLabel"):
+		$CanvasLayer/HelpLabel.text = "Hold SPACE to BOOST (unlimited test drinks)\nReach page goal • Watch fatigue • R to restart"
+		fade_out_help_later()
 	start_level(1)
 
-func start_level(n):
-	print("Starting level: ", n)
-	current_level = n
-	score = 0
-	fatigue = 0
-	drinks = 3 if n == 1 else 2 if n == 2 else 1
-	fatigue_rate = fatigue_rates[n-1]
-	$Background.color = Color("#2a306c") if n == 1 else Color("#9d363c") if n == 2 else Color("#FFD700")
+func fade_out_help_later():
+	var t := Timer.new()
+	t.wait_time = 5.0
+	t.one_shot = true
+	add_child(t)
+	t.timeout.connect(func():
+		if $CanvasLayer.has_node("HelpLabel"):
+			$CanvasLayer/HelpLabel.visible = false
+	)
+	t.start()
 
-	# Safe node access - print to confirm
-	if $CanvasLayer.has_node("ScoreLabel"):
-		$CanvasLayer/ScoreLabel.text = "Pages Typed: %d/%d" % [score, pages_goal[n-1]]
-	else:
-		print("ScoreLabel not found under CanvasLayer!")
-	if $CanvasLayer.has_node("EnergyLabel"):
-		$CanvasLayer/EnergyLabel.text = "Energy Drinks: %d" % drinks
-	else:
-		print("EnergyLabel not found under CanvasLayer!")
-	if $CanvasLayer.has_node("FatigueBar"):
-		$CanvasLayer/FatigueBar.value = fatigue
-	else:
-		print("FatigueBar not found under CanvasLayer!")
+func start_level(n):
+	current_level = n
+	score = 0.0
+	fatigue = 0.0
+	fatigue_rate = fatigue_rates[n-1]
+	$Background.color = (Color("#2a306c") if n == 1 else Color("#9d363c") if n == 2 else Color("#FFD700"))
+	$CanvasLayer/ScoreLabel.text = "Pages Typed: %d/%d" % [int(score), pages_goal[n-1]]
+	$CanvasLayer/EnergyLabel.text = "Energy Drinks: ∞ (test)"
+	$CanvasLayer/FatigueBar.value = fatigue
+	get_tree().paused = false
+	if has_node("Aanya"):
+		$Aanya.is_boosting = false
+		$Aanya.position.x = 50.0
 
 func _input(event):
-	if event.is_action_pressed("ui_accept") and drinks > 0:
-		print("Boost pressed")
+	if event.is_action_pressed("ui_accept"):
+		print("[INPUT] SPACE PRESSED")
 		if has_node("Aanya"):
 			$Aanya.is_boosting = true
-			drinks -= 1
-			fatigue += 2
-			$CanvasLayer/EnergyLabel.text = "Energy Drinks: %d" % drinks
-		else:
-			print("Aanya not found!")
 	if event.is_action_released("ui_accept"):
-		print("Boost released")
+		print("[INPUT] SPACE RELEASED")
 		if has_node("Aanya"):
 			$Aanya.is_boosting = false
 
 func _process(delta):
-	print("Processing frame. Score:", score, "Fatigue:", fatigue)
-	if has_node("Aanya"):
-		if $Aanya.is_boosting:
-			fatigue += delta * fatigue_rate * 2
-			score += int(4 * delta)
-		else:
-			fatigue += delta * fatigue_rate
-			score += int(delta)
+	# Boost visibly affects pages per second
+	var base_pps  := 3.0   # 3 pages/sec
+	var boost_pps := 10.0  # 10 pages/sec when boosting
 
-	if $CanvasLayer.has_node("ScoreLabel"):
-		$CanvasLayer/ScoreLabel.text = "Pages Typed: %d/%d" % [score, pages_goal[current_level-1]]
-	if $CanvasLayer.has_node("FatigueBar"):
-		$CanvasLayer/FatigueBar.value = fatigue
+	var pps := base_pps
+	if has_node("Aanya") and $Aanya.is_boosting:
+		pps = boost_pps
+		fatigue += delta * fatigue_rate * 1.7
+	else:
+		fatigue += delta * fatigue_rate
 
-	if fatigue >= 10:
-		print("Game over triggered")
-		game_over()
+	score += pps * delta
+	$CanvasLayer/ScoreLabel.text = "Pages Typed: %d/%d" % [int(score), pages_goal[current_level-1]]
+	$CanvasLayer/FatigueBar.value = fatigue
+
+	if Time.get_ticks_msec() % 500 < 16 and has_node("Aanya"):
+		print("[STATE] boosting=", $Aanya.is_boosting)
+
+	if fatigue >= 10.0:
+		game_over(); return
 	if score >= pages_goal[current_level-1]:
-		print("Going to next level")
-		next_level()
-	if has_node("Aanya"):
-		if $Aanya.position.x >= 760:
-			$Aanya.position.x = 0
-			if current_level >= 2:
-				drinks += 1
-				$CanvasLayer/EnergyLabel.text = "Energy Drinks: %d" % drinks
+		next_level(); return
+
+	if has_node("Aanya") and $Aanya.position.x >= 760.0:
+		$Aanya.position.x = 0.0
 
 func next_level():
 	if current_level >= 3:
@@ -85,23 +84,22 @@ func next_level():
 		start_level(current_level + 1)
 
 func game_over():
-	print("Game Over reached")
+	if get_tree().paused: return
 	get_tree().paused = true
-	var msg = Label.new()
-	msg.text = "Aanya dozed off!\nPages: %d\nPress R to restart" % score
-	msg.position = Vector2(250, 260)
+	var msg := Label.new()
+	msg.text = "Aanya dozed off!\nPages: %d\nPress R to restart" % int(score)
+	msg.position = Vector2(180, 240)
 	add_child(msg)
 
 func show_win_screen():
-	print("Win Screen displayed")
+	if get_tree().paused: return
 	get_tree().paused = true
-	var msg = Label.new()
-	msg.text = "You survived all 3 levels!\nTotal Pages: %d\nPress R to restart" % score
-	msg.position = Vector2(220, 260)
+	var msg := Label.new()
+	msg.text = "You survived all 3 levels!\nTotal Pages: %d\nPress R to restart" % int(score)
+	msg.position = Vector2(170, 240)
 	add_child(msg)
 
 func _unhandled_input(event):
-	print("Input event received: ", event)
 	if event.is_action_pressed("restart"):
-		print("Restart key pressed!")
+		get_tree().paused = false
 		get_tree().reload_current_scene()

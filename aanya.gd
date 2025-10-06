@@ -1,6 +1,11 @@
 extends Node2D
+
 var is_boosting = false
 
+const SPEED_NORMAL = 160.0
+const SPEED_BOOST  = 360.0
+
 func _process(delta):
-	position.x += (350 if is_boosting else 200) * delta
-	position.x = clamp(position.x, 0, 760)
+	var speed = SPEED_BOOST if is_boosting else SPEED_NORMAL
+	position.x += speed * delta
+	position.x = clamp(position.x, 0.0, 760.0)
