@@ -1,6 +1,6 @@
 # Aanya’s All-Nighter
 
-> *A fun and simple typing-themed arcade game made with Godot Engine. All game graphics were created using Canva.*
+> *A fun and simple typing-themed game made with Godot Engine. All game graphics were created using Canva.*
 
 ---
 
@@ -24,44 +24,6 @@ Boost her productivity, manage her fatigue, and complete all levels for victory.
 | ------------------------ | -------- |
 | Boost/Type               | Spacebar |
 | Restart (after win/loss) | R        |
-
----
-
-## Installation & Running
-
-1. **Requirements:**
-
-   * Godot Engine 4.x
-
-2. **Clone or Download** this repository.
-
-3. **Assets:**
-
-   * All character art and graphics were created in Canva, included in the `assets/` folder.
-
-4. **Open the Project:**
-
-   * In Godot, press “Import”, select the project folder, and open.
-
-5. **Run the Game:**
-
-   * Press **F5** or click the “Run” button inside Godot.
-
----
-
-## Scene Structure
-
-```
-Main (Node2D)
-├─ CanvasLayer
-│   ├─ ScoreLabel   (Label)
-│   ├─ EnergyLabel  (Label)
-│   └─ FatigueBar   (ProgressBar)
-├─ Background      (ColorRect)
-├─ Aanya           (Node2D, instanced from Aanya.tscn)
-```
-
-*Note:* All UI nodes must be named as above, and must be direct children of `CanvasLayer`.
 
 ---
 
