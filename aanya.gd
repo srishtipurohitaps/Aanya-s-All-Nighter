@@ -2,8 +2,8 @@ extends Node2D
 
 var is_boosting = false
 
-const SPEED_NORMAL = 160.0
-const SPEED_BOOST  = 360.0
+const SPEED_NORMAL = 180.0
+const SPEED_BOOST  = 340.0
 
 func _process(delta):
 	var speed = SPEED_BOOST if is_boosting else SPEED_NORMAL

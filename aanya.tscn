@@ -4,13 +4,13 @@
 [ext_resource type="Texture2D" uid="uid://c46mtubjvjtji" path="res://assets/Aanya Main.png" id="1_jqb6f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4i7ln"]
-size = Vector2(33, 55.5)
+size = Vector2(73.5, 91.75)
 
 [node name="Aanya" type="Node2D"]
 script = ExtResource("1_4i7ln")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-scale = Vector2(0.13599999, 0.13700001)
+scale = Vector2(0.198, 0.18450001)
 texture = ExtResource("1_jqb6f")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
