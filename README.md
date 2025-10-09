@@ -1,30 +1,28 @@
 # Aanya’s All-Nighter
 
-> *A fun and simple typing-themed game made with Godot Engine. All game graphics were created using Canva.*
+A frantic typing sprint game for Godot! Help Aanya stay awake through three caffeine-fueled levels by balancing boosts, energy drinks, and stamina.
 
----
+## Gameplay
 
-## Gameplay Overview
+- Hold **SPACE** to boost typing speed — each boost uses an energy drink and speeds up fatigue.
+- Cross the screen edge to refill drinks.
+- Don't let the fatigue bar max out, or it's game over.
+- Press **F** at any time for an instant restart.
 
-Help Aanya stay awake and finish her typing assignment before running out of energy!
-Boost her productivity, manage her fatigue, and complete all levels for victory.
+## Features
 
-* Hold **Spacebar** to boost and type faster (if you have energy drinks left).
-* Typing fills “Pages Typed” and increases fatigue.
-* Use energy drinks wisely; running out disables boosting.
-* If the fatigue bar fills up, Aanya dozes off and you lose.
-* Complete the required number of pages to level up.
-* Survive all levels to win.
+- Three escalating levels (150/320/520 pages)
+- Responsive controls and flashing boost indicator
+- Instant retry and smooth resource management
 
----
+## Getting Started
+
+1. Download or clone this repo.
+2. Open in Godot 4.5+.
+3. Run or export for Web/Desktop.
+4. Alternately, play directly on itch.io: https://srishp.itch.io/aanyas-all-nighter
 
 ## Controls
 
-| Action                   | Key      |
-| ------------------------ | -------- |
-| Boost/Type               | Spacebar |
-| Restart (after win/loss) | R        |
-
----
-
-*Have fun helping Aanya power through her all-nighter!*
+- **SPACE:** Boost
+- **F:** Restart
